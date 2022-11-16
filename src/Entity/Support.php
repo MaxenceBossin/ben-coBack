@@ -15,7 +15,7 @@ class Support
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'supports')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Dumpster $dumpster = null;
 
     #[ORM\ManyToOne(inversedBy: 'supports')]
@@ -37,6 +37,9 @@ class Support
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
 
     public function getId(): ?int
     {
@@ -123,6 +126,18 @@ class Support
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
