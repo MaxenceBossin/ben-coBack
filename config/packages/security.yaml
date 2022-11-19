@@ -44,9 +44,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api/showDumpster, roles: PUBLIC_ACCESS }
         # Partie User
         # Partie Admin
-        - { path: ^/api/showDumpster, roles: ROLE_ADMIN }
         # Partie GarbageCollector
         - { path: ^/api/showConversation, roles: [ROLE_GARBAGECOLLECTOR, ROLE_ADMIN] }
 
