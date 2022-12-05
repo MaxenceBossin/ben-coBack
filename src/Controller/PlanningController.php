@@ -73,8 +73,10 @@ class PlanningController extends AbstractController
     {
 
         $data = json_decode($request->getContent());
-        $date = $data->date;
-
-        return $this->json($planningRepo->fetchWithDate($date));
+        $date = new DateTimeImmutable($data->date);
+        $dateEnd = $date->modify('+5 day');
+        $res = $planningRepo->fetchWithDate($date->format('Y-m-d'), $dateEnd->format('Y-m-d'));
+        return $this->json($res);
+        return $this->json([$date->format('Y-m-d'), $dateEnd->format('Y-m-d')]);
     }
 }

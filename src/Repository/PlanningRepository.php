@@ -39,17 +39,17 @@ class PlanningRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function fetchWithDate($date)
+    public function fetchWithDate($date, $dateEnd)
     {
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
             SELECT * FROM planning p
-            WHERE p.date = :date
-            
+            WHERE p.date BETWEEN :date AND :dateEnd
+            ORDER BY p.date ASC
             ';
         $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery(['date' => $date]);
+        $resultSet = $stmt->executeQuery(['date' => $date, 'dateEnd' => $dateEnd]);
 
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
