@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\PlanningRepository;
 use DateTimeImmutable;
 
 /**
@@ -16,7 +17,7 @@ class PlanningController extends AbstractController
 {
     // Fonction d'ajout de planning
     #[Route('/addPlanning', name: 'app_addPlanning')]
-    public function addPlanning(ManagerRegistry $doctrine, Request $request)
+    public function addPlanning(ManagerRegistry $doctrine, Request $request,)
     {
         $entityManager = $doctrine->getManager();
 
@@ -27,7 +28,7 @@ class PlanningController extends AbstractController
         $dateImmutable = new DateTimeImmutable($date);
 
         $dateCheck = $doctrine->getRepository(Planning::class)->findOneBy(["date" => $dateImmutable]);
-        
+
         if ($dateCheck != null) {
             return $this->updatePlanning($doctrine, $request);
         } else {
@@ -63,5 +64,17 @@ class PlanningController extends AbstractController
         $entityManager->flush();
 
         return $this->json('Planning modified !');
+    }
+
+
+    // Fonction get planning
+    #[Route('/getPlanning', name: 'getPlanning')]
+    public function getPlanning(ManagerRegistry $doctrine, Request $request, PlanningRepository $planningRepo)
+    {
+
+        $data = json_decode($request->getContent());
+        $date = $data->date;
+
+        return $this->json($planningRepo->fetchWithDate($date));
     }
 }
