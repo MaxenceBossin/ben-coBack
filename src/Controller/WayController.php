@@ -30,7 +30,6 @@ class WayController extends AbstractController
         $dateEnd = new DateTimeImmutable($data->date_end); 
         $routeJson = [$data->route_json];
         $teamJson =  [$data->team];
-        /* Verification des dates */
         if($dateStart->getTimestamp() >= $dateEnd->getTimestamp()) {
             return $this->json('Problème date', Response::HTTP_METHOD_NOT_ALLOWED);
         }
