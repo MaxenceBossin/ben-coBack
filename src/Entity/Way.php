@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\RouteRepository;
+use App\Repository\WayRepository;
+use Doctrine\DBAL\Types\JsonType;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RouteRepository::class)]
-class Route
+#[ORM\Entity(repositoryClass: WayRepository::class)]
+class Way
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -71,7 +72,7 @@ class Route
         return $this->route_json;
     }
 
-    public function setRouteJson(array $route_json): self
+    public function setRouteJson(Array $route_json): self
     {
         $this->route_json = $route_json;
 
