@@ -35,7 +35,7 @@ class UserController extends AbstractController
         if(strlen($data->password) < 5){
             return throw $this->createNotFoundException('Mauvais format de mots de passe');
         }
-        return $this->json(strlen($data->password));
+
         $user = new User();
         $user->setEmail($data->email);
         $user->setPassword(
@@ -44,15 +44,10 @@ class UserController extends AbstractController
                 $data->password
             )
         );
-        if($data->roles == null ||
-        $data->roles != 'ROLE_USER' ||
-        $data->roles != 'ROLE_GARBAGECOLLECTOR' ||
-        $data->roles != 'ROLE_ADMIN' ||
-        
-        !isset($data->roles)){
+        if($data->roles == null) {
             $user->setRoles(["ROLE_USER"]);
         }else{
-            $user->setRoles($data->role);
+            $user->setRoles($data->roles);
         } 
         if(isset($data->first_name)) $user->setFirstName($data->first_name);
         if(isset($data->last_name)) $user->setLastName($data->last_name);
