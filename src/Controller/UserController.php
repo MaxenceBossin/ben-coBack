@@ -35,7 +35,7 @@ class UserController extends AbstractController
         if(strlen($data->password) < 5){
             return throw $this->createNotFoundException('Mauvais format de mots de passe');
         }
-        return $this->json(strlen($data->password));
+
         $user = new User();
         $user->setEmail($data->email);
         $user->setPassword(
@@ -44,15 +44,10 @@ class UserController extends AbstractController
                 $data->password
             )
         );
-        if($data->roles == null ||
-        $data->roles != 'ROLE_USER' ||
-        $data->roles != 'ROLE_GARBAGECOLLECTOR' ||
-        $data->roles != 'ROLE_ADMIN' ||
-        
-        !isset($data->roles)){
+        if($data->roles == null) {
             $user->setRoles(["ROLE_USER"]);
         }else{
-            $user->setRoles($data->role);
+            $user->setRoles($data->roles);
         } 
         if(isset($data->first_name)) $user->setFirstName($data->first_name);
         if(isset($data->last_name)) $user->setLastName($data->last_name);
@@ -62,5 +57,23 @@ class UserController extends AbstractController
         return $this->json('Utilisateur inscrit');
     }
 
+    #[Route('/showUsers', name: 'app_showUsers')]
+    public function showUsers(ManagerRegistry $doctrine): Response
+    {
+        $users = $doctrine->getRepository(User::class)->findAll();
+
+        $tab = [];
+
+        foreach ($users as $user) {
+            $tab[] = [
+                "id" => $user->getId(),
+                "email" => $user->getEmail(),
+                "roles" => $user->getRoles(),
+                "first_name" => $user->getFirstName(),
+                "last_name" => $user->getLastName(),
+            ];
+        }
+        return $this->json($tab);
+    }
 
 }

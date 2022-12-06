@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Route;
+use App\Entity\Way;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,14 +14,14 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Route[]    findAll()
  * @method Route[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RouteRepository extends ServiceEntityRepository
+class WayRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Route::class);
+        parent::__construct($registry, Way::class);
     }
 
-    public function save(Route $entity, bool $flush = false): void
+    public function save(Way $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RouteRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Route $entity, bool $flush = false): void
+    public function remove(Way $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
