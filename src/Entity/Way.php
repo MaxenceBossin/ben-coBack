@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\WayRepository;
-use Doctrine\DBAL\Types\JsonType;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WayRepository::class)]
