@@ -62,5 +62,23 @@ class UserController extends AbstractController
         return $this->json('Utilisateur inscrit');
     }
 
+    #[Route('/showUsers', name: 'app_showUsers')]
+    public function showUsers(ManagerRegistry $doctrine): Response
+    {
+        $users = $doctrine->getRepository(User::class)->findAll();
+
+        $tab = [];
+
+        foreach ($users as $user) {
+            $tab[] = [
+                "id" => $user->getId(),
+                "email" => $user->getEmail(),
+                "roles" => $user->getRoles(),
+                "first_name" => $user->getFirstName(),
+                "last_name" => $user->getLastName(),
+            ];
+        }
+        return $this->json($tab);
+    }
 
 }
