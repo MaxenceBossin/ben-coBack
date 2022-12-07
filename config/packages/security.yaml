@@ -32,13 +32,14 @@ security:
             provider: app_user_provider
 
     access_control:
+        # Partie Public
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/showDumpster, roles: PUBLIC_ACCESS }
         # Partie User
         # Partie Admin
         # Partie GarbageCollector
-        - { path: ^/api/showConversation, roles: [ROLE_GARBAGECOLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/showConversation, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
 
 
 when@test:
