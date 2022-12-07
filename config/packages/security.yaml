@@ -35,11 +35,22 @@ security:
         # Partie Public
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api/showDumpster, roles: PUBLIC_ACCESS }
         # Partie User
+        - { path: ^/api/showDumpster, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/showOneDumpster/, roles: IS_AUTHENTICATED_FULLY }
         # Partie Admin
+        - { path: ^/api/showUsers, roles: [ROLE_ADMIN] }
+        - { path: ^/api/setGarbageCollector, roles: [ROLE_ADMIN] }
+        - { path: ^/api/removeGarbageCollector, roles: [ROLE_ADMIN] }
+        - { path: ^/api/updatePlanning, roles: [ROLE_ADMIN] }
+        - { path: ^/api/addPlanning, roles: [ROLE_ADMIN] }
+
         # Partie GarbageCollector
+        - { path: ^/api/getPlanning, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/addSupport, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/showGarbageCollector, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
         - { path: ^/api/showConversation, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/ways, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
 
 
 when@test:
