@@ -76,13 +76,11 @@ class PlanningController extends AbstractController
         $date = new DateTimeImmutable($data->date);
         
         $res = $planningRepo->fetchWithDate($date);
-        // $days = [];
-       
-
-
-       
-        // $date2 = new DateTimeImmutable($res[0]['date']);
-
+        $i = 0;
+        foreach ($res as $planning){
+            $res[$i]['team'] = json_decode($res[$i]['team']);
+            $i++;
+        }
         return $this->json($res);
         // return $this->json([$date->format('Y-m-d'), $dateEnd->format('Y-m-d')]);
     }
