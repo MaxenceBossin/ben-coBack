@@ -22,21 +22,13 @@ class PlanningController extends AbstractController
         $entityManager = $doctrine->getManager();
 
         $dataArray = json_decode($request->getContent());
-
-    //   ttt
-        $planning = $doctrine->getRepository(Planning::class)->find(18);
-        // ttt
         
         foreach($dataArray as $data){
             
         $dateImmutable = new DateTimeImmutable($data->date);
-        // $dateCheck = $doctrine->getRepository(Planning::class)->findOneBy(["date" => $dateImmutable]);
         $dateCheck = $planningRepo->fetchWith1Date($dateImmutable);
         if ($dateCheck != null) {
             $planningRepo->replace($dateImmutable,$data->team);
-            // return $this->json([$data->team]);
-
-            // return $this->json([$dateImmutable,$dateCheck,$planning]);
         } else {
             
             $planning = new Planning();
@@ -50,7 +42,7 @@ class PlanningController extends AbstractController
         }
     }
     return $this->json('Planning added !');
-    // return $this->json($dataArray);
+
 
     }
 
