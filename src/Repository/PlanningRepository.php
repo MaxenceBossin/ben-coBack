@@ -54,6 +54,32 @@ class PlanningRepository extends ServiceEntityRepository
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
     }
+    public function fetchWith1Date($date)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT * FROM planning p
+            WHERE p.date = :date
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date->format('Y-m-d')]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+    public function replace($date,$team)
+    {
+        // $team = '["testtest","test"]';
+        $team = json_encode($team);
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            UPDATE  `planning` SET `team` = :team
+            WHERE date = :date
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date->format('Y-m-d'),'team' => $team]);
+
+        return $resultSet->fetchAllAssociative();
+    }
     //    /**
     //     * @return Planning[] Returns an array of Planning objects
     //     */
