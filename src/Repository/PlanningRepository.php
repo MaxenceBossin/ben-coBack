@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Planning;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use JetBrains\PhpStorm\Immutable;
 
 /**
  * @extends ServiceEntityRepository<Planning>
@@ -38,29 +39,43 @@ class PlanningRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function fetchWithDate($date)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $dateEnd = $date->modify('+5 day');
+        $sql = '
+            SELECT * FROM planning p
+            WHERE p.date BETWEEN :date AND :dateEnd
+            ORDER BY p.date ASC
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date->format('Y-m-d'), 'dateEnd' => $dateEnd->format('Y-m-d')]);
+        return $resultSet->fetchAllAssociative();
+    }
+    public function fetchWith1Date($date)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT * FROM planning p
+            WHERE p.date = :date
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date->format('Y-m-d')]);
 
-//    /**
-//     * @return Planning[] Returns an array of Planning objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        return $resultSet->fetchAllAssociative();
+    }
+    public function replace($date,$team)
+    {
 
-//    public function findOneBySomeField($value): ?Planning
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $team = json_encode($team);
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            UPDATE  `planning` SET `team` = :team
+            WHERE date = :date
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['date' => $date->format('Y-m-d'),'team' => $team]);
+
+        return $resultSet->fetchAllAssociative();
+    }
 }

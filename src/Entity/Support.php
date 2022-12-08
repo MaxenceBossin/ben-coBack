@@ -23,7 +23,7 @@ class Support
     private ?User $fk_user = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $fk_admin = null;
 
     #[ORM\Column(length: 255)]
