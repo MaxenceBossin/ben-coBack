@@ -51,6 +51,9 @@ security:
         - { path: ^/api/showGarbageCollector, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
         - { path: ^/api/showConversation, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
         - { path: ^/api/ways, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/addSupport, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/supports, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
+        - { path: ^/api/support, roles: [ROLE_GARBAGE_COLLECTOR, ROLE_ADMIN] }
 
 
 when@test:
