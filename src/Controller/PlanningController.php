@@ -46,29 +46,6 @@ class PlanningController extends AbstractController
 
     }
 
-    // Fonction d'uodate de planning
-    // #[Route('/updatePlanning', name: 'app_updatePlanning')]
-    // public function updatePlanning(ManagerRegistry $doctrine, Request $request)
-    // {
-    //     $entityManager = $doctrine->getManager();
-
-    //     $data = json_decode($request->getContent());
-
-    //     $teamJson = $data->teamJson;
-    //     $date = $data->date;
-    //     $dateImmutable = new DateTimeImmutable($date);
-
-    //     $planningCheck = $doctrine->getRepository(Planning::class)->findOneBy(["date" => $dateImmutable]);
-
-    //     $planningCheck->setTeam($teamJson);
-    //     $planningCheck->setDate($dateImmutable);
-
-    //     $entityManager->persist($planningCheck);
-    //     $entityManager->flush();
-
-    //     return $this->json('Planning modified !');
-    // }
-
 
     // Fonction get planning
     #[Route('/getPlanning', name: 'getPlanning')]
@@ -85,6 +62,6 @@ class PlanningController extends AbstractController
             $i++;
         }
         return $this->json($res);
-        // return $this->json([$date->  format('Y-m-d'), $dateEnd->format('Y-m-d')]);
+       
     }
 }
