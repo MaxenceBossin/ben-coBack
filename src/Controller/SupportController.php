@@ -25,19 +25,22 @@ class SupportController extends AbstractController
 
         $data = json_decode($request->getContent());
 
-        $dumpsterId = $data->dumpsterId;
+        if(!empty($data->dumpsterId)) {$dumpsterId = $data->dumpsterId;} else { $dumpsterId = null;}
         $fkUserId = $data->fkUserId;
         $category = $data->category;
         $title = $data->title;
-        if(!empty($data->imageSrc)) {$imageSrc = $data->imageSrc;} else { $imageSrc = '';}
-        if(!empty($data->content)) {$content = $data->content;} else { $content = '';}
-
-        $dumpster = $doctrine->getRepository(Dumpster::class)->find($dumpsterId);
+        if(!empty($data->imageSrc)) {$imageSrc = $data->imageSrc;} else { $imageSrc = null;}
+        if(!empty($data->content)) {$content = $data->content;} else { $content = null;}
+        
+        
         $user = $doctrine->getRepository(User::class)->find($fkUserId);
 
         $support = new Support();
-
-        $support->setDumpster($dumpster);
+        if(!empty($dumpsterId)){
+            $dumpster = $doctrine->getRepository(Dumpster::class)->find($dumpsterId);
+            $support->setDumpster($dumpster);
+        }
+        
         $support->setFkUser($user);
         $support->setCategory($category);
         $support->setTitle($title);
@@ -48,7 +51,7 @@ class SupportController extends AbstractController
         $entityManager->persist($support);
         $entityManager->flush();
 
-        return $this->json("ajout OK");
+        return $this->json("ajout OK",  Response::HTTP_OK);
     }
 
     #[Route('/supports', name: 'getAllSupport' , methods:['GET'])]
